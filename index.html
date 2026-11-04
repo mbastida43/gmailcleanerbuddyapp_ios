@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gmail Cleaner Buddy — iPhone app</title>
 <meta name="description" content="Find out who is flooding your Gmail and send those senders to the trash — right from your phone. Native iPhone app, no server, no stored password.">
+<link rel="alternate" hreflang="pt-BR" href="https://mbastida43.github.io/gmailcleanerbuddyapp_ios/?lang=pt">
+<link rel="alternate" hreflang="en" href="https://mbastida43.github.io/gmailcleanerbuddyapp_ios/?lang=en">
+<link rel="alternate" hreflang="es" href="https://mbastida43.github.io/gmailcleanerbuddyapp_ios/?lang=es">
+<link rel="alternate" hreflang="fr" href="https://mbastida43.github.io/gmailcleanerbuddyapp_ios/?lang=fr">
+<link rel="alternate" hreflang="it" href="https://mbastida43.github.io/gmailcleanerbuddyapp_ios/?lang=it">
+<link rel="alternate" hreflang="ru" href="https://mbastida43.github.io/gmailcleanerbuddyapp_ios/?lang=ru">
+<link rel="alternate" hreflang="zh-CN" href="https://mbastida43.github.io/gmailcleanerbuddyapp_ios/?lang=zh">
+<link rel="alternate" hreflang="x-default" href="https://mbastida43.github.io/gmailcleanerbuddyapp_ios/">
 <style>
   :root{
     --bg:#f4f7fb; --card:#ffffff; --text:#172033; --muted:#667085;
@@ -134,7 +142,7 @@
         <a href="https://github.com/mbastida43/gmailcleanerbuddyapp_ios" target="_blank" rel="noopener" class="hide-sm">GitHub</a>
         <div class="lang">
           <button class="lang-btn" id="langBtn" type="button" aria-haspopup="listbox" aria-expanded="false">
-            <span class="flag" id="curFlag">🇬🇧</span>
+            <span class="flag" id="curFlag">🇺🇸</span>
             <span id="curLabel">EN</span>
             <span class="chev">▾</span>
           </button>
@@ -254,11 +262,10 @@
 
 <script>
 "use strict";
-// Default language: English, with a dropdown for the same languages as the
-// SaaS project's README (en/pt/es/fr/it/ru/zh).
+// Os mesmos 7 idiomas do app (GmailCleanerBuddy/Lang.swift), na mesma ordem.
 const LANGS = [
-  { code: 'en', label: 'EN', flag: '🇬🇧', name: 'English' },
   { code: 'pt', label: 'PT', flag: '🇧🇷', name: 'Português' },
+  { code: 'en', label: 'EN', flag: '🇺🇸', name: 'English' },
   { code: 'es', label: 'ES', flag: '🇪🇸', name: 'Español' },
   { code: 'fr', label: 'FR', flag: '🇫🇷', name: 'Français' },
   { code: 'it', label: 'IT', flag: '🇮🇹', name: 'Italiano' },
@@ -643,6 +650,17 @@ const BADGES = {
 };
 for (const code of Object.keys(BADGES)) Object.assign(I18N[code], BADGES[code]);
 
+// Título e descrição da aba/busca em cada idioma.
+const META = {
+  en: ['Gmail Cleaner Buddy — iPhone app', 'Find out who is flooding your Gmail and send those senders to the trash — right from your phone. Native iPhone app, no server, no stored password.'],
+  pt: ['Gmail Cleaner Buddy — app para iPhone', 'Descubra quem está lotando seu Gmail e mande esses remetentes para a lixeira — direto do celular. App nativo para iPhone, sem servidor e sem senha guardada.'],
+  es: ['Gmail Cleaner Buddy — app para iPhone', 'Descubre quién está llenando tu Gmail y envía esos remitentes a la papelera — desde tu teléfono. App nativa para iPhone, sin servidor y sin contraseña guardada.'],
+  fr: ['Gmail Cleaner Buddy — app iPhone', 'Découvrez qui inonde votre Gmail et envoyez ces expéditeurs à la corbeille — depuis votre téléphone. App iPhone native, sans serveur, sans mot de passe enregistré.'],
+  it: ['Gmail Cleaner Buddy — app per iPhone', 'Scopri chi sta intasando il tuo Gmail e manda quei mittenti nel cestino — direttamente dal telefono. App nativa per iPhone, senza server e senza password salvate.'],
+  ru: ['Gmail Cleaner Buddy — приложение для iPhone', 'Узнайте, кто засыпает ваш Gmail письмами, и отправьте этих отправителей в корзину прямо с телефона. Нативное приложение для iPhone, без сервера и без хранения пароля.'],
+  zh: ['Gmail Cleaner Buddy — iPhone 应用', '找出是谁在塞满你的 Gmail，并直接在手机上把这些发件人的邮件移到垃圾箱。原生 iPhone 应用，无需服务器，不保存密码。']
+};
+
 const langBtn = document.getElementById('langBtn');
 const langMenu = document.getElementById('langMenu');
 const curFlag = document.getElementById('curFlag');
@@ -659,6 +677,9 @@ function applyI18n(code) {
     if (key && dict[key] !== undefined) el.setAttribute('alt', dict[key]);
   });
   document.documentElement.lang = code === 'zh' ? 'zh-CN' : code;
+  const [title, desc] = META[code] || META.en;
+  document.title = title;
+  document.querySelector('meta[name="description"]').setAttribute('content', desc);
 }
 
 function setLang(code) {
@@ -672,6 +693,10 @@ function setLang(code) {
     });
   }
   try { localStorage.setItem('gcb_lang', code); } catch (e) { /* storage disabled */ }
+  // Link compartilhável por idioma: ?lang=xx
+  const url = new URL(location.href);
+  url.searchParams.set('lang', code);
+  history.replaceState(null, '', url);
 }
 
 function openMenu() { langMenu?.classList.add('open'); langBtn?.setAttribute('aria-expanded', 'true'); }
@@ -696,12 +721,12 @@ langBtn?.addEventListener('click', (e) => {
 document.addEventListener('click', () => closeMenu());
 langMenu?.addEventListener('click', (e) => e.stopPropagation());
 
-// Default: English, unless a previous choice exists.
-let initial = 'en';
-try {
-  const saved = localStorage.getItem('gcb_lang');
-  if (saved && I18N[saved]) initial = saved;
-} catch (e) { /* storage disabled */ }
+// Igual ao app: ?lang=xx, senão a escolha salva, senão o idioma do navegador, senão inglês.
+let saved = null;
+try { saved = localStorage.getItem('gcb_lang'); } catch (e) { /* storage disabled */ }
+const browser = (navigator.languages || [navigator.language]).map((l) => String(l).slice(0, 2));
+const initial = [new URLSearchParams(location.search).get('lang'), saved, ...browser]
+  .find((c) => c && I18N[c]) || 'en';
 setLang(initial);
 </script>
 
