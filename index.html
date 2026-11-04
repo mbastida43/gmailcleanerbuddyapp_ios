@@ -68,6 +68,18 @@
   .note{color:var(--muted); font-size:14px; text-align:center; max-width:640px; margin:22px auto 0;}
   .btn-primary{background:linear-gradient(135deg,#4285f4,#34a853); color:#fff; box-shadow:0 10px 30px rgba(66,133,244,.35);}
 
+  .badges{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+  .badge{display:inline-flex; align-items:center; gap:10px; min-width:200px; padding:9px 20px 9px 16px;
+    border-radius:12px; background:#000; color:#fff; border:1px solid #a6a6a6; text-decoration:none;
+    transition:transform .15s ease;}
+  .badge:hover{transform:translateY(-2px);}
+  .badge svg{width:30px; height:30px; flex-shrink:0;}
+  .badge > span{display:flex; flex-direction:column; line-height:1.15; text-align:left;}
+  .badge small{font-size:11px; letter-spacing:.3px;}
+  .badge b{font-size:21px; font-weight:600; letter-spacing:-.3px;}
+  .badge.soon{opacity:.55; cursor:default;}
+  .badge.soon:hover{transform:none;}
+
   section{margin-bottom:56px;}
   h2{font-size:24px; margin:0 0 22px; text-align:center;}
 
@@ -135,9 +147,9 @@
   <div class="hero">
     <h1 data-i18n="hero_title">Discover who's flooding your Gmail</h1>
     <p class="lead" data-i18n="hero_lead">Scan your inbox, see the Top 10 Offenders ranking, and move all of their emails to the trash with one tap — right from your phone, no server required.</p>
-    <div class="cta-row">
-      <a class="btn btn-primary" href="#install" data-i18n="btn_play">📲 Install on iPhone</a>
-      <a class="btn btn-ghost" href="https://mbastida43.github.io/gmailcleanerbuddyapp/" target="_blank" rel="noopener" data-i18n="btn_android">🤖 Android version</a>
+    <div class="badges">
+      <a class="badge" href="#install"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="6" y="1.8" width="12" height="20.4" rx="3"/><path d="M10.5 18.6h3"/></svg><span><small data-i18n="badge_ios_top">Download for</small><b>iPhone</b></span></a>
+      <a class="badge" href="https://mbastida43.github.io/gmailcleanerbuddyapp/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2.8v18.4c0 .6.6.9 1.1.6l15.4-8.9c.5-.3.5-1.1 0-1.4L6.1 2.2C5.6 1.9 5 2.2 5 2.8z" fill="currentColor"/></svg><span><small data-i18n="badge_soon">Coming soon on</small><b>Google Play</b></span></a>
     </div>
   </div>
 
@@ -590,6 +602,46 @@ const IOS = {
   }
 };
 for (const code of Object.keys(IOS)) Object.assign(I18N[code], IOS[code]);
+
+// Selos das lojas, iguais nas páginas do Android e do iPhone.
+const BADGES = {
+  "en": {
+    "badge_soon": "Coming soon on",
+    "badge_play_top": "Get it on",
+    "badge_ios_top": "Download for"
+  },
+  "pt": {
+    "badge_soon": "Em breve no",
+    "badge_play_top": "Disponível no",
+    "badge_ios_top": "Baixe para"
+  },
+  "es": {
+    "badge_soon": "Próximamente en",
+    "badge_play_top": "Disponible en",
+    "badge_ios_top": "Descarga para"
+  },
+  "fr": {
+    "badge_soon": "Bientôt sur",
+    "badge_play_top": "Disponible sur",
+    "badge_ios_top": "Télécharger pour"
+  },
+  "it": {
+    "badge_soon": "Presto su",
+    "badge_play_top": "Disponibile su",
+    "badge_ios_top": "Scarica per"
+  },
+  "ru": {
+    "badge_soon": "Скоро в",
+    "badge_play_top": "Доступно в",
+    "badge_ios_top": "Скачать для"
+  },
+  "zh": {
+    "badge_soon": "即将登陆",
+    "badge_play_top": "立即下载",
+    "badge_ios_top": "下载到"
+  }
+};
+for (const code of Object.keys(BADGES)) Object.assign(I18N[code], BADGES[code]);
 
 const langBtn = document.getElementById('langBtn');
 const langMenu = document.getElementById('langMenu');
