@@ -1,0 +1,44 @@
+# Projeto Xcode descrito em texto: no Mac, `xcodegen` gera o
+# GmailCleanerBuddy.xcodeproj a partir daqui (ver README.md).
+name: GmailCleanerBuddy
+options:
+  bundleIdPrefix: com.mbastida
+  deploymentTarget:
+    iOS: "17.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+targets:
+  GmailCleanerBuddy:
+    type: application
+    platform: iOS
+    sources: [GmailCleanerBuddy]
+    info:
+      path: GmailCleanerBuddy/Info.plist
+      properties:
+        CFBundleDisplayName: Gmail Cleaner Buddy
+        CFBundleDevelopmentRegion: pt-BR
+        CFBundleLocalizations: [pt-BR, en, es, fr, it, ru, zh-Hans]
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        ITSAppUsesNonExemptEncryption: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mbastida.gmailcleanerbuddy
+        TARGETED_DEVICE_FAMILY: "1"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+  GmailCleanerBuddyTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [GmailCleanerBuddyTests]
+    dependencies:
+      - target: GmailCleanerBuddy
+schemes:
+  GmailCleanerBuddy:
+    build:
+      targets:
+        GmailCleanerBuddy: all
+    test:
+      targets: [GmailCleanerBuddyTests]

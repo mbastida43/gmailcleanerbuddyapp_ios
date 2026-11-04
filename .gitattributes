@@ -1,0 +1,23 @@
+# Fim de linha normalizado no repositório: LF sempre, aqui dentro.
+#
+# Sem isto, o `cap sync` reescrevia android/*.gradle com CRLF e os arquivos
+# ficavam eternamente "modificados" no git status, com diff de conteúdo ZERO —
+# ruído que suja todo commit e esconde mudança de verdade no meio.
+#
+# O repo já guardava LF (nenhum arquivo em HEAD tem CRLF), então isto grava o
+# que já é: não há renormalização pendente.
+* text=auto
+
+# Binários: nunca tocar. O `text=auto` já detecta sozinho, mas um PNG ou uma
+# fonte corrompida por conversão de fim de linha é o tipo de estrago que só
+# aparece muito depois — as capturas da Play e as fontes embutidas no APK.
+*.png   binary
+*.woff2 binary
+*.jar   binary
+
+# O wrapper do Gradle. Os dois são gerados pelo Gradle e têm exigência oposta:
+# o .bat é lido pelo cmd.exe, que tropeça em rótulos/goto sem CRLF; o gradlew
+# é um shell script, e um \r no shebang faz o sh reclamar de interpretador
+# inexistente.
+*.bat            text eol=crlf
+android/gradlew  text eol=lf
