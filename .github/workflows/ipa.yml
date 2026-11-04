@@ -8,6 +8,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Para publicar o .ipa como release (o botão de download da página).
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: macos-15
@@ -44,3 +48,12 @@ jobs:
         with:
           name: GmailCleanerBuddy-ipa
           path: GmailCleanerBuddy.ipa
+
+      # Release "latest" fixa: o link releases/latest/download/GmailCleanerBuddy.ipa
+      # da página (index.html) baixa sem precisar de conta no GitHub.
+      - name: Publicar o .ipa na release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest GmailCleanerBuddy.ipa             --title "Gmail Cleaner Buddy para iPhone (build ${GITHUB_SHA::7})"             --notes "IPA sem assinatura. Instale com o Sideloadly: https://mbastida43.github.io/gmailcleanerbuddyapp_ios/#install"

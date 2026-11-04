@@ -1,6 +1,8 @@
 # 📱 Gmail Cleaner Buddy — iOS
 
 Port nativo (Swift + SwiftUI) do app Android em `../gmailcleanerbuddyapp`.
+🌐 **Página do projeto:** https://mbastida43.github.io/gmailcleanerbuddyapp_ios/
+
 A lógica é a mesma, linha por linha: contagem exata remetente por remetente,
 cache por id, trava da própria conta, limpeza via `batchModify`, os 7 idiomas
 e os mesmos textos.
