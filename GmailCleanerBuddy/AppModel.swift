@@ -1,7 +1,7 @@
 // Estado e ações da tela — a porta de src/app.ts. Os porquês de cada
 // mensagem, do percentual único e da limpeza em ondas estão comentados lá.
 
-import Observation
+import Combine
 import SwiftUI
 import UIKit
 
@@ -10,26 +10,25 @@ struct PendingConfirm {
     let action: () async -> Void
 }
 
-@Observable
 @MainActor
-final class AppModel {
-    var lang: Lang = .initial {
+final class AppModel: ObservableObject {
+    @Published var lang: Lang = .initial {
         didSet { UserDefaults.standard.set(lang.rawValue, forKey: "lang") }
     }
-    var signedIn = false
-    var email = ""
-    var data: AnalyzeData?
-    var loading = false
-    var status = ""
-    var hint = ""
-    var toast: String?
-    var confirm: PendingConfirm?
+    @Published var signedIn = false
+    @Published var email = ""
+    @Published var data: AnalyzeData?
+    @Published var loading = false
+    @Published var status = ""
+    @Published var hint = ""
+    @Published var toast: String?
+    @Published var confirm: PendingConfirm?
 
-    @ObservationIgnored let auth: Auth
-    @ObservationIgnored let gmail: Gmail
-    @ObservationIgnored private var toastTask: Task<Void, Never>?
-    @ObservationIgnored private var announcedPhase: ProgressPhase?
-    @ObservationIgnored private var lastPct = 0.0
+    let auth: Auth
+    let gmail: Gmail
+    private var toastTask: Task<Void, Never>?
+    private var announcedPhase: ProgressPhase?
+    private var lastPct = 0.0
 
     init() {
         auth = Auth()
@@ -213,7 +212,7 @@ final class AppModel {
             i += 4
             if !unauthorized && i < targets.count {
                 reportCleanProgress(done, targets.count, paused: true)
-                try? await Task.sleep(for: .milliseconds(700))
+                await pause(0.7)
             }
         }
 
@@ -262,7 +261,7 @@ final class AppModel {
         toast = message
         toastTask?.cancel()
         toastTask = Task { [weak self] in
-            try? await Task.sleep(for: .seconds(3))
+            await pause(3)
             if !Task.isCancelled { self?.toast = nil }
         }
     }

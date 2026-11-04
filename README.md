@@ -22,9 +22,34 @@ salva: os tokens ficam só na memória e somem quando o app fecha.
 | `GmailCleanerBuddyTests/GmailTests.swift` | `test/*.test.ts` |
 | `project.yml` | `android/` (gera o projeto do Xcode) |
 
-## Como compilar (precisa de um Mac)
+Roda do **iOS 15** em diante, o que inclui o iPhone 6s, o iPhone 7 e os
+modelos mais novos.
 
-O iOS só compila no macOS com o Xcode: não existe caminho pelo Windows.
+## Instalar no iPhone sem Mac (pelo Windows)
+
+O GitHub compila o app num Mac dele a cada push (`.github/workflows/ipa.yml`)
+e entrega um `.ipa` sem assinatura. O Sideloadly, no Windows, assina esse
+`.ipa` com o seu Apple ID e instala no iPhone pelo cabo.
+
+1. No Windows, instale o **iTunes** (o instalador do site da Apple, não a
+   versão da Microsoft Store) e o **Sideloadly** (sideloadly.io).
+2. No GitHub, abra **Actions → ipa → a última execução verde** e baixe o
+   artefato `GmailCleanerBuddy-ipa`. Descompacte o zip e use o
+   `GmailCleanerBuddy.ipa` que vem dentro.
+3. Ligue o iPhone no cabo, desbloqueie a tela e toque em **Confiar** no
+   aviso do iPhone.
+4. No Sideloadly, arraste o `.ipa`, digite o seu Apple ID e clique em
+   **Start**.
+5. No iPhone, abra **Ajustes → Geral → VPN e Gerenciamento de Dispositivo**,
+   toque no seu Apple ID e depois em **Confiar**.
+
+Com um Apple ID grátis, o app **para de abrir depois de 7 dias**. Para
+renovar, é só repetir o passo 4. Com o Apple Developer Program, a
+assinatura dura 1 ano.
+
+## Como compilar num Mac
+
+Com um Mac, o caminho é o Xcode:
 
 1. **Mac com Xcode 16 ou mais novo** (App Store, grátis).
 2. **Gere o projeto:**

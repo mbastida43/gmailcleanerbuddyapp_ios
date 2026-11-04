@@ -253,6 +253,12 @@ enum FactsCache {
     }
 }
 
+/// Pausa sem lançar. Task.sleep(for:) só existe a partir do iOS 16; o app
+/// vai até o iOS 15 (iPhone 6s/7).
+func pause(_ seconds: Double) async {
+    try? await Task.sleep(nanoseconds: UInt64(max(0, seconds) * 1_000_000_000))
+}
+
 // MARK: - API
 
 @MainActor
@@ -271,7 +277,7 @@ final class Gmail {
     private var isBackground: Bool { UIApplication.shared.applicationState == .background }
 
     private func waitForeground() async {
-        while isBackground { try? await Task.sleep(for: .seconds(1)) }
+        while isBackground { await pause(1) }
     }
 
     /// Renova só com o app na tela; 3 falhas com o app na tela = desiste.
@@ -283,7 +289,7 @@ final class Gmail {
             if isBackground { continue }
             failures += 1
             if failures >= 3 { return false }
-            try? await Task.sleep(for: .seconds(2))
+            await pause(2)
         }
     }
 
@@ -320,7 +326,7 @@ final class Gmail {
                 if isBackground { await waitForeground(); continue }
                 netFailures += 1
                 if netFailures > 10 { throw error }
-                try? await Task.sleep(for: .seconds(2))
+                await pause(2)
                 continue
             }
 
@@ -342,7 +348,7 @@ final class Gmail {
                 throw GmailAPIError(status: status, reason: reason, message: message)
             }
             // 300ms, 600, 1200, 2400, 4800
-            try? await Task.sleep(for: .milliseconds(300 * (1 << attempt)))
+            await pause(0.3 * Double(1 << attempt))
             attempt += 1
         }
     }
@@ -435,7 +441,7 @@ final class Gmail {
             let owed = Double(batch.count) / READ_PER_SEC - Date().timeIntervalSince(started)
             if owed > 0 && i < toRead.count {
                 progress(.waiting, read, toRead.count, firstRead)
-                try? await Task.sleep(for: .seconds(owed))
+                await pause(owed)
             }
         }
 
@@ -522,7 +528,7 @@ final class Gmail {
                         }
                     }
                     if unauthorized { throw UnauthorizedError() }
-                    if j + 10 < chunk.count { try? await Task.sleep(for: .milliseconds(120)) }
+                    if j + 10 < chunk.count { await pause(0.12) }
                 }
             }
         }

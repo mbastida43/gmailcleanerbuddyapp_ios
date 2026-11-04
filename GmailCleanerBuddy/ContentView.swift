@@ -11,7 +11,7 @@ private extension Color {
 }
 
 struct ContentView: View {
-    @Environment(AppModel.self) private var model
+    @EnvironmentObject private var model: AppModel
 
     var body: some View {
         ZStack {
@@ -72,7 +72,7 @@ private struct Card<Content: View>: View {
 }
 
 private struct TopBar: View {
-    @Environment(AppModel.self) private var model
+    @EnvironmentObject private var model: AppModel
 
     var body: some View {
         HStack(spacing: 14) {
@@ -121,7 +121,7 @@ private struct TopBar: View {
 }
 
 private struct AuthCard: View {
-    @Environment(AppModel.self) private var model
+    @EnvironmentObject private var model: AppModel
 
     var body: some View {
         Card {
@@ -157,7 +157,7 @@ private struct AuthCard: View {
 }
 
 private struct ResultsCard: View {
-    @Environment(AppModel.self) private var model
+    @EnvironmentObject private var model: AppModel
 
     var body: some View {
         let data = model.data
@@ -219,7 +219,7 @@ private struct Pill: ButtonStyle {
 }
 
 private struct Stats: View {
-    @Environment(AppModel.self) private var model
+    @EnvironmentObject private var model: AppModel
     let data: AnalyzeData
 
     var body: some View {
@@ -246,7 +246,7 @@ private struct Stats: View {
 }
 
 private struct OffenderRow: View {
-    @Environment(AppModel.self) private var model
+    @EnvironmentObject private var model: AppModel
     let item: Offender
     let rank: Int
 
@@ -299,7 +299,7 @@ private struct OffenderRow: View {
 }
 
 private struct LoadingOverlay: View {
-    @Environment(AppModel.self) private var model
+    @EnvironmentObject private var model: AppModel
 
     var body: some View {
         ZStack {
@@ -309,9 +309,8 @@ private struct LoadingOverlay: View {
                 // Mudos para o VoiceOver: mudam a cada e-mail lido. Quem fala é
                 // o anúncio de fase em AppModel.reportProgress.
                 Text(model.status)
-                    .font(.headline)
+                    .font(.headline.monospacedDigit())
                     .foregroundStyle(.white)
-                    .monospacedDigit()
                     .accessibilityHidden(true)
                 if !model.hint.isEmpty {
                     Text(model.hint)

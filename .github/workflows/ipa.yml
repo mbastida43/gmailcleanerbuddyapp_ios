@@ -1,0 +1,46 @@
+# Compila no Mac do GitHub (grátis em repositório público): roda os testes e
+# gera um .ipa SEM assinatura. Quem assina é o Sideloadly, no Windows, com o
+# seu Apple ID — ver README.md, "Instalar no iPhone sem Mac".
+name: ipa
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Gerar o projeto do Xcode
+        run: |
+          brew install xcodegen
+          xcodegen
+
+      - name: Testes
+        run: |
+          SIM=$(xcrun simctl list devices available | grep -m1 -oE 'iPhone [^(]+' | sed 's/ *$//')
+          echo "Simulador: $SIM"
+          xcodebuild test -project GmailCleanerBuddy.xcodeproj -scheme GmailCleanerBuddy \
+            -destination "platform=iOS Simulator,name=$SIM" CODE_SIGNING_ALLOWED=NO | tail -40
+          exit ${PIPESTATUS[0]}
+
+      - name: Compilar para iPhone (sem assinatura)
+        run: |
+          xcodebuild build -project GmailCleanerBuddy.xcodeproj -scheme GmailCleanerBuddy \
+            -configuration Release -sdk iphoneos -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO | tail -40
+          exit ${PIPESTATUS[0]}
+
+      - name: Empacotar o .ipa
+        run: |
+          mkdir Payload
+          cp -R build/Build/Products/Release-iphoneos/GmailCleanerBuddy.app Payload/
+          zip -qr GmailCleanerBuddy.ipa Payload
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: GmailCleanerBuddy-ipa
+          path: GmailCleanerBuddy.ipa
