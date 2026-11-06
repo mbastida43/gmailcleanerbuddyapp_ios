@@ -16,7 +16,7 @@
 
 > 🌐 https://mbastida43.github.io/gmailcleanerbuddyapp_ios/<br>
 > 🛠️ [`INSTRUCTIONS.md`](INSTRUCTIONS.md)<br>
-> 🔒 https://mbastida43.github.io/gmailcleanerbuddy/privacy.html
+> 🔒 https://mbastida43.github.io/gmailcleanerbuddyapp/privacy.html
 
 ---
 

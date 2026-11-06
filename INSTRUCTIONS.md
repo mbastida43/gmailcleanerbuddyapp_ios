@@ -83,7 +83,7 @@ Com um Mac, o caminho é o Xcode:
   um, porque a ampliação perde nitidez.
 - **Privacidade:** `PrivacyInfo.xcprivacy` já declara que o app não rastreia
   nem coleta dados. No App Store Connect, responda "Dados não coletados" e use
-  a mesma política: https://mbastida43.github.io/gmailcleanerbuddy/privacy.html
+  a mesma política: https://mbastida43.github.io/gmailcleanerbuddyapp/privacy.html
 - **Gmail:** a verificação OAuth + CASA do Google vale para o projeto inteiro.
   Quando o Android for aprovado, o iOS sai junto, sem refazer nada.
 - **Criptografia:** `ITSAppUsesNonExemptEncryption = false` (só HTTPS),
