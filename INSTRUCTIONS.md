@@ -1,4 +1,4 @@
-# 🛠️ Gmail Cleaner Buddy — iOS: compilar, instalar e publicar
+# 🛠️ Inbox Cleaner Buddy — iOS: compilar, instalar e publicar
 
 Port nativo (Swift + SwiftUI) do app Android em `../gmailcleanerbuddyapp`.
 

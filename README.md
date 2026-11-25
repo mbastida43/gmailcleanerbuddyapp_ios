@@ -1,7 +1,7 @@
-<h1 align="center">📱 Gmail Cleaner Buddy — iPhone</h1>
+<h1 align="center">📱 Inbox Cleaner Buddy — iPhone</h1>
 
 <p align="center">
-  <img src="GmailCleanerBuddy/Assets.xcassets/AppIcon.appiconset/icon-1024.png" width="120" alt="Gmail Cleaner Buddy">
+  <img src="GmailCleanerBuddy/Assets.xcassets/AppIcon.appiconset/icon-1024.png" width="120" alt="Inbox Cleaner Buddy">
 </p>
 
 <p align="center">

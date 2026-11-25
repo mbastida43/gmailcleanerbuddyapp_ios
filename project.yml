@@ -18,7 +18,7 @@ targets:
     info:
       path: GmailCleanerBuddy/Info.plist
       properties:
-        CFBundleDisplayName: Gmail Cleaner Buddy
+        CFBundleDisplayName: Inbox Cleaner Buddy
         CFBundleDevelopmentRegion: pt-BR
         CFBundleLocalizations: [pt-BR, en, es, fr, it, ru, zh-Hans]
         UILaunchScreen: {}

@@ -76,19 +76,15 @@ private struct TopBar: View {
 
     var body: some View {
         HStack(spacing: 14) {
-            Text("G")
-                .font(.system(size: 26, weight: .black))
-                .foregroundStyle(.white)
+            // Ícone próprio do app; o "G" com as cores do Google parecia marca do Gmail.
+            Image("Logo")
+                .resizable()
                 .frame(width: 58, height: 58)
-                .background(
-                    LinearGradient(colors: [.gBlue, .gGreen, .gYellow, .gRed],
-                                   startPoint: .topLeading, endPoint: .bottomTrailing),
-                    in: RoundedRectangle(cornerRadius: 18)
-                )
+                .clipShape(RoundedRectangle(cornerRadius: 18))
                 .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 4) {
-                Text("Gmail Cleaner Buddy").font(.title3.weight(.black))
+                Text("Inbox Cleaner Buddy").font(.title3.weight(.black))
                 Text(model.t("subtitle")).font(.caption).foregroundStyle(.secondary)
             }
 
